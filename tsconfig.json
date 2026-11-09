@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "types": ["node"],
+    "moduleResolution": "NodeNext",
+    "module": "NodeNext",
+    "allowImportingTsExtensions": true,
+    "rewriteRelativeImportExtensions": true,
+    "target": "ES2025",
+    "erasableSyntaxOnly": true,
+    "lib": [
+      "ES2025",
+      "ESNext.Iterator",
+      "DOM",
+      "DOM.Iterable",
+      "DOM.AsyncIterable",
+      "ESNext.Temporal"
+    ]
+  }
+}

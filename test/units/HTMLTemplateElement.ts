@@ -1,9 +1,4 @@
-import {
-  DocumentFragment,
-  DOMParser,
-  HTMLTemplateElement,
-  NodeType,
-} from "../../deno-dom-wasm.ts";
+import { DocumentFragment, DOMParser, HTMLTemplateElement, NodeType } from "../../deno-dom-wasm.ts";
 import {
   assertNotStrictEquals as assertNotEquals,
   assertStrictEquals as assertEquals,
@@ -44,19 +39,13 @@ Deno.test("HTMLTemplateElement", () => {
   assertEquals(templA.content.constructor, DocumentFragment);
   assertEquals(templB.content.constructor, DocumentFragment);
   assertEquals(paragraph, null);
-  assertEquals(
-    templB.outerHTML,
-    `<template class="templ-b"><b>foo <i>bar</i></b></template>`,
-  );
+  assertEquals(templB.outerHTML, `<template class="templ-b"><b>foo <i>bar</i></b></template>`);
 
   templB.append(doc.createElement("div"), "Hello!");
   assertEquals(templB.childNodes.length, 2);
 
   // Make sure <template>'s outerHTML is unchanged
-  assertEquals(
-    templB.outerHTML,
-    `<template class="templ-b"><b>foo <i>bar</i></b></template>`,
-  );
+  assertEquals(templB.outerHTML, `<template class="templ-b"><b>foo <i>bar</i></b></template>`);
 
   const innerContentA = templA.content;
   const innerContentB = templB.content;
@@ -85,10 +74,7 @@ Deno.test("HTMLTemplateElement", () => {
   assertEquals(templB.childNodes.length, 2);
 
   // Check that our new <aside> is there by checking for its chlld text node
-  assertEquals(
-    templB.content.querySelector("aside")?.childNodes[0].nodeType,
-    NodeType.TEXT_NODE,
-  );
+  assertEquals(templB.content.querySelector("aside")?.childNodes[0].nodeType, NodeType.TEXT_NODE);
 
   // Remove all children
   for (const node of [...templB.childNodes]) {
@@ -148,24 +134,12 @@ Deno.test("HTMLTemplateElement.cloneNode", () => {
   assertNotEquals(templShallowClone.content, templ.content);
   assertNotEquals(templDeepClone.content, templ.content);
 
-  assertNotEquals(
-    templDeepClone.content.childNodes[0],
-    templ.content.childNodes[0],
-  );
-  assertNotEquals(
-    templDeepClone.content.childNodes[1],
-    templ.content.childNodes[1],
-  );
+  assertNotEquals(templDeepClone.content.childNodes[0], templ.content.childNodes[0]);
+  assertNotEquals(templDeepClone.content.childNodes[1], templ.content.childNodes[1]);
   assertEquals(templDeepClone.content.childNodes[0].nodeName, "#text");
   assertEquals(templDeepClone.content.childNodes[1].nodeName, "H1");
-  assertEquals(
-    templDeepClone.content.childNodes[0].nodeName,
-    templ.content.childNodes[0].nodeName,
-  );
-  assertEquals(
-    templDeepClone.content.childNodes[1].nodeName,
-    templ.content.childNodes[1].nodeName,
-  );
+  assertEquals(templDeepClone.content.childNodes[0].nodeName, templ.content.childNodes[0].nodeName);
+  assertEquals(templDeepClone.content.childNodes[1].nodeName, templ.content.childNodes[1].nodeName);
   assertEquals(
     templDeepClone.content.childNodes[0].textContent,
     templ.content.childNodes[0].textContent,
@@ -179,10 +153,7 @@ Deno.test("HTMLTemplateElement.cloneNode", () => {
   assertEquals(templDeepClone.querySelector("h1"), null);
   assertEquals(templ.content.querySelector("h1")?.textContent, "foo");
   assertEquals(templDeepClone.content.querySelector("h1")?.textContent, "foo");
-  assertNotEquals(
-    templDeepClone.content.querySelector("h1"),
-    templ.content.querySelector("h1"),
-  );
+  assertNotEquals(templDeepClone.content.querySelector("h1"), templ.content.querySelector("h1"));
 
   const outer = doc.querySelector("#outer") as HTMLTemplateElement;
   const wrongInner = doc.querySelector("#inner") as HTMLTemplateElement | null;
@@ -205,9 +176,7 @@ Deno.test("HTMLTemplateElement.cloneNode", () => {
   assertNotEquals(outer.content, outerDeepClone.content);
   assertNotEquals(outerShallowClone.content, outerDeepClone.content);
 
-  const outerDeepCloneInner = outerDeepClone.content.querySelector(
-    "#inner",
-  ) as HTMLTemplateElement;
+  const outerDeepCloneInner = outerDeepClone.content.querySelector("#inner") as HTMLTemplateElement;
 
   assertEquals(outerShallowClone.content.childNodes.length, 0);
   assertEquals(outerDeepClone.content.childNodes.length, 7);
@@ -219,23 +188,14 @@ Deno.test("HTMLTemplateElement.cloneNode", () => {
   assertNotEquals(outerDeepCloneInner, inner);
   assertNotEquals(outerDeepCloneInner.content, inner.content);
   assertEquals(outerDeepCloneInner.childNodes.length, 0);
-  assertEquals(
-    outerDeepCloneInner.content.childNodes.length,
-    inner.content.childNodes.length,
-  );
+  assertEquals(outerDeepCloneInner.content.childNodes.length, inner.content.childNodes.length);
   assertEquals(outerDeepCloneInner.content.children[0].textContent, "qux");
   assertEquals(
     outerDeepCloneInner.content.children[0].textContent,
     inner.content.children[0].textContent,
   );
-  assertEquals(
-    outerDeepCloneInner.content.children[0].tagName,
-    inner.content.children[0].tagName,
-  );
-  assertNotEquals(
-    outerDeepCloneInner.content.children[0],
-    inner.content.children[0],
-  );
+  assertEquals(outerDeepCloneInner.content.children[0].tagName, inner.content.children[0].tagName);
+  assertNotEquals(outerDeepCloneInner.content.children[0], inner.content.children[0]);
 
   outer.innerHTML = "";
   const emptyOuterShallowClone = outer.cloneNode();
@@ -248,8 +208,7 @@ Deno.test("HTMLTemplateElement.cloneNode", () => {
   assertEquals(outer.querySelector("template"), null);
   assertEquals(emptyOuterDeepClone.querySelector("template"), null);
 
-  outer.innerHTML =
-    `<span>spanning</span><template id=other-inner><figure>pretty</figure></template>`;
+  outer.innerHTML = `<span>spanning</span><template id=other-inner><figure>pretty</figure></template>`;
 
   const replacedOuterShallowClone = outer.cloneNode();
   const replacedOuterDeepClone = outer.cloneNode(true);
@@ -259,33 +218,22 @@ Deno.test("HTMLTemplateElement.cloneNode", () => {
   assertEquals(replacedOuterShallowClone.querySelector("span"), null);
   assertEquals(replacedOuterDeepClone.querySelector("span"), null);
   assertEquals(replacedOuterShallowClone.content.querySelector("span"), null);
-  assertEquals(
-    replacedOuterDeepClone.content.querySelector("span")?.tagName,
-    "SPAN",
-  );
+  assertEquals(replacedOuterDeepClone.content.querySelector("span")?.tagName, "SPAN");
   assertEquals(replacedOuterDeepClone.content.querySelector("figure"), null);
 
-  const replacedOuterDeepCloneInner = replacedOuterDeepClone.content
-    .querySelector("template") as HTMLTemplateElement;
+  const replacedOuterDeepCloneInner = replacedOuterDeepClone.content.querySelector(
+    "template",
+  ) as HTMLTemplateElement;
 
   assertEquals(replacedOuterDeepCloneInner?.constructor, HTMLTemplateElement);
   assertEquals(replacedOuterDeepCloneInner.querySelector("figure"), null);
-  assertEquals(
-    replacedOuterDeepCloneInner.content.querySelector("figure")?.tagName,
-    "FIGURE",
-  );
+  assertEquals(replacedOuterDeepCloneInner.content.querySelector("figure")?.tagName, "FIGURE");
 
   replacedOuterDeepCloneInner.textContent = "";
-  assertEquals(
-    replacedOuterDeepCloneInner.content.querySelector("figure")?.tagName,
-    "FIGURE",
-  );
+  assertEquals(replacedOuterDeepCloneInner.content.querySelector("figure")?.tagName, "FIGURE");
 
   replacedOuterDeepCloneInner.innerHTML = "";
-  assertEquals(
-    replacedOuterDeepCloneInner.content.querySelector("figure")?.tagName,
-    undefined,
-  );
+  assertEquals(replacedOuterDeepCloneInner.content.querySelector("figure")?.tagName, undefined);
 });
 
 Deno.test("HTMLTemplateElement parent will properly print its innerHTML", () => {

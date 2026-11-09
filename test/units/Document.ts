@@ -1,4 +1,4 @@
-import { DOMParser } from "../../deno-dom-wasm.ts";
+import { DOMParser } from "../../mod.ts";
 import { assertStrictEquals as assertEquals } from "assert";
 
 Deno.test("Document.title sets title element value", () => {

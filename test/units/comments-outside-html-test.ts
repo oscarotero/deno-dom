@@ -1,12 +1,5 @@
 import { assert, assertEquals } from "assert";
-import {
-  Comment,
-  Document,
-  DocumentType,
-  DOMParser,
-  Element,
-  Node,
-} from "../../deno-dom-wasm.ts";
+import { Comment, Document, DocumentType, DOMParser, Element, Node } from "../../deno-dom-wasm.ts";
 
 Deno.test("Comment before <html>", async () => {
   const src = await Deno.readTextFile("./comments-outside-html.html");
@@ -21,15 +14,9 @@ Deno.test("Comment before <html>", async () => {
   );
   assert(document.childNodes[1] instanceof DocumentType);
   assert(document.childNodes[2] instanceof Comment);
-  assertEquals(
-    (document.childNodes[2] as Comment).data,
-    " TODO: Bells and whistles ",
-  );
+  assertEquals((document.childNodes[2] as Comment).data, " TODO: Bells and whistles ");
   assert(document.childNodes[3] instanceof Element);
   assertEquals(document.documentElement as Node | null, document.childNodes[3]);
   assert(document.childNodes[4] instanceof Comment);
-  assertEquals(
-    (document.childNodes[4] as Comment).data,
-    " Copyright: public domain ",
-  );
+  assertEquals((document.childNodes[4] as Comment).data, " Copyright: public domain ");
 });

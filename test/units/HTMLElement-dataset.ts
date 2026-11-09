@@ -1,8 +1,5 @@
-import { DOMParser } from "../../deno-dom-wasm.ts";
-import {
-  assertEquals,
-  assertThrows,
-} from "https://deno.land/std@0.85.0/testing/asserts.ts";
+import { DOMParser } from "../../mod.ts";
+import { assertEquals, assertThrows } from "https://deno.land/std@0.85.0/testing/asserts.ts";
 
 // FIXME: should be HTMLElement but it's not implemented yet
 Deno.test("Element#dataset", () => {
@@ -33,10 +30,7 @@ Deno.test("Element#dataset", () => {
   assertEquals(Object.keys(div.dataset), ["foo"]);
   assertEquals(div.hasAttribute("data-foo"), true);
   assertEquals(div.hasAttribute("data--foo-bar"), false);
-  assertEquals(
-    div.outerHTML,
-    `<div bar="nope" foo="notdataset" data-foo="bar"></div>`,
-  );
+  assertEquals(div.outerHTML, `<div bar="nope" foo="notdataset" data-foo="bar"></div>`);
 
   div.dataset.FIZZy = 42 as unknown as string;
 
@@ -71,10 +65,7 @@ Deno.test("Element#dataset", () => {
   assertEquals(div.hasAttribute("data-foo"), false);
   assertEquals(div.hasAttribute("data--foo-bar"), false);
   assertEquals(div.hasAttribute("data--f-i-z-zy"), true);
-  assertEquals(
-    div.outerHTML,
-    `<div bar="nope" foo="notdataset" data--f-i-z-zy="42"></div>`,
-  );
+  assertEquals(div.outerHTML, `<div bar="nope" foo="notdataset" data--f-i-z-zy="42"></div>`);
 
   div.setAttribute("data--éclair", true);
 

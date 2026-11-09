@@ -1,4 +1,4 @@
-import { DOMParser } from "../../deno-dom-wasm.ts";
+import { DOMParser } from "../../mod.ts";
 import {
   assertStrictEquals as assertEquals,
   assertThrows,
@@ -20,15 +20,9 @@ Deno.test("Element.getAttributeNode", () => {
   assertEquals(classAttrElementGetter?.name, "class");
   assertEquals(classAttrElementGetter?.value, "foo");
 
-  assertEquals(
-    classAttrElementGetter,
-    classAttrNamedNodeMap,
-  );
+  assertEquals(classAttrElementGetter, classAttrNamedNodeMap);
 
-  assertEquals(
-    classAttrElementGetter,
-    classAttrNamedNodeMapIndex,
-  );
+  assertEquals(classAttrElementGetter, classAttrNamedNodeMapIndex);
 
   div.removeAttribute("class");
   const classAttrNull = div.getAttributeNode("class");
@@ -41,17 +35,11 @@ Deno.test("Element.getAttributeNode", () => {
   assertEquals(dataClassAttrElementGetter?.name, "data-test");
   assertEquals(dataClassAttrElementGetter?.value, "value");
 
-  assertEquals(
-    dataClassAttrElementGetter,
-    dataClassAttrNamedNodeMap,
-  );
+  assertEquals(dataClassAttrElementGetter, dataClassAttrNamedNodeMap);
 
   const dataClassAttrNamedNodeMapIndex = div.attributes[0];
 
-  assertEquals(
-    dataClassAttrElementGetter,
-    dataClassAttrNamedNodeMapIndex,
-  );
+  assertEquals(dataClassAttrElementGetter, dataClassAttrNamedNodeMapIndex);
 });
 
 Deno.test("Element.setAttributeNode", () => {

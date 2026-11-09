@@ -1,4 +1,4 @@
-import { DOMParser } from "../../deno-dom-wasm.ts";
+import { DOMParser } from "../../mod.ts";
 import { assert } from "assert";
 
 Deno.test("Element-matches", () => {

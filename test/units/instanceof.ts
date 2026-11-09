@@ -1,9 +1,4 @@
-import {
-  Element,
-  HTMLCollection,
-  NodeList,
-  nodesFromString,
-} from "../../deno-dom-wasm.ts";
+import { Element, HTMLCollection, NodeList, nodesFromString } from "../../deno-dom-wasm.ts";
 import { assert } from "assert";
 
 Deno.test("Array instanceof Array", () => {
@@ -12,29 +7,25 @@ Deno.test("Array instanceof Array", () => {
 });
 
 Deno.test("NodeList not instanceof Array", () => {
-  const nodes = nodesFromString(
-    Deno.readTextFileSync(new URL("./basic.html", import.meta.url)),
-  );
+  const nodes = nodesFromString(Deno.readTextFileSync(new URL("./basic.html", import.meta.url)));
   assert(!(nodes instanceof Array));
   assert(!Array.isArray(nodes));
 });
 
 Deno.test("HTMLCollection not instanceof Array", () => {
-  const nodes = nodesFromString(
-    Deno.readTextFileSync(new URL("./basic.html", import.meta.url)),
-  );
+  const nodes = nodesFromString(Deno.readTextFileSync(new URL("./basic.html", import.meta.url)));
   assert(!((nodes as Element).children instanceof Array));
   assert(!Array.isArray((nodes as Element).children));
 });
 
 Deno.test("Nullish not instanceof NodeList", () => {
-  assert(!(null as any instanceof NodeList));
-  assert(!(undefined as any instanceof NodeList));
+  assert(!((null as any) instanceof NodeList));
+  assert(!((undefined as any) instanceof NodeList));
 });
 
 Deno.test("Nullish not instanceof HTMLCollection", () => {
-  assert(!(null as any instanceof HTMLCollection));
-  assert(!(undefined as any instanceof HTMLCollection));
+  assert(!((null as any) instanceof HTMLCollection));
+  assert(!((undefined as any) instanceof HTMLCollection));
 });
 
 Deno.test("Subclass instanceof Array", () => {

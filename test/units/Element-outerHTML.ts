@@ -1,4 +1,4 @@
-import { DOMParser } from "../../deno-dom-wasm.ts";
+import { DOMParser } from "../../mod.ts";
 import {
   assertStrictEquals as assertEquals,
   assertThrows,
@@ -32,14 +32,8 @@ Deno.test("Element.outerHTML rawtext elements don't get XML escaped", () => {
 
   const script = doc.querySelector("script")!;
   const div = doc.querySelector("div")!;
-  assertEquals(
-    script.outerHTML,
-    `<script>((a,b) => a < b)(1337, 42 & 0);</script>`,
-  );
-  assertEquals(
-    div.outerHTML,
-    `<div>((a,b) =&gt; a &lt; b)(1337, 42 &amp; 0);</div>`,
-  );
+  assertEquals(script.outerHTML, `<script>((a,b) => a < b)(1337, 42 & 0);</script>`);
+  assertEquals(div.outerHTML, `<div>((a,b) =&gt; a &lt; b)(1337, 42 &amp; 0);</div>`);
 });
 
 Deno.test("Element.outerHTML void elements don't print their contents", () => {
@@ -55,9 +49,11 @@ Deno.test("Element.outerHTML void elements don't print their contents", () => {
   );
 
   const img = doc.querySelector("img")!;
-  img.append(Object.assign(doc.createElement("div"), {
-    textContent: "you shouldn't be here",
-  }));
+  img.append(
+    Object.assign(doc.createElement("div"), {
+      textContent: "you shouldn't be here",
+    }),
+  );
 
   assertEquals(img.outerHTML, `<img src="./foo.png" class="bar">`);
   assertEquals(img.innerHTML, `<div>you shouldn't be here</div>`);
@@ -89,8 +85,7 @@ Deno.test("Element.outerHTML can be set to replace element", () => {
   const tbody = doc.querySelector("tbody")!;
   const tr = tbody.children[0];
 
-  const newHTML =
-    `<span>foo <em>fib</em></span>text nodes<strong fizz=qux>bar</strong><!--comment-->`;
+  const newHTML = `<span>foo <em>fib</em></span>text nodes<strong fizz=qux>bar</strong><!--comment-->`;
   const serializedNewHTML = newHTML.replace("qux", '"qux"');
   child.outerHTML = newHTML;
 
@@ -168,7 +163,9 @@ Deno.test("Element.outerHTML can be set to replace element", () => {
   assertEquals(frag.children.length, 2);
   assertEquals(frag.childNodes.length, 4);
   assertEquals(
-    Array.from(frag.childNodes).map((node) => node.nodeName).join("-"),
+    Array.from(frag.childNodes)
+      .map((node) => node.nodeName)
+      .join("-"),
     "ASIDE-#comment-#text-BUTTON",
   );
 
@@ -177,23 +174,17 @@ Deno.test("Element.outerHTML can be set to replace element", () => {
   });
 });
 
-Deno.test(
-  "setting Element.innerHTML should not escape <noscript> contents",
-  () => {
-    const doc = new DOMParser().parseFromString(
-      `
+Deno.test("setting Element.innerHTML should not escape <noscript> contents", () => {
+  const doc = new DOMParser().parseFromString(
+    `
         <div></div>
       `,
-      "text/html",
-    )!;
+    "text/html",
+  )!;
 
-    const div = doc.querySelector("div")!;
-    div.innerHTML = `<noscript><div id="fizz">foo & bar</div></noscript>`;
-    const noscript = doc.querySelector("noscript")!;
+  const div = doc.querySelector("div")!;
+  div.innerHTML = `<noscript><div id="fizz">foo & bar</div></noscript>`;
+  const noscript = doc.querySelector("noscript")!;
 
-    assertEquals(
-      noscript.outerHTML,
-      `<noscript><div id="fizz">foo & bar</div></noscript>`,
-    );
-  },
-);
+  assertEquals(noscript.outerHTML, `<noscript><div id="fizz">foo & bar</div></noscript>`);
+});

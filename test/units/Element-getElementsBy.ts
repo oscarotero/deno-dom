@@ -34,8 +34,7 @@ Deno.test("Element.getElementsByTagName", () => {
   assertExists(mainP);
   assertExists(articleP);
 
-  const imgParentArticle =
-    (img!.parentElement! as Element).getElementsByTagName("article")[0];
+  const imgParentArticle = (img!.parentElement! as Element).getElementsByTagName("article")[0];
 
   assertEquals(aside.tagName, "ASIDE");
   assertEquals(article.tagName, "ARTICLE");
@@ -77,8 +76,7 @@ Deno.test("Element.getElementsByClassName", () => {
   assertExists(mainP);
   assertExists(articleP);
 
-  const imgParentArticle =
-    (img!.parentElement! as Element).getElementsByClassName("an-article")[0];
+  const imgParentArticle = (img!.parentElement! as Element).getElementsByClassName("an-article")[0];
 
   assertEquals(aside.tagName, "ASIDE");
   assertEquals(article.tagName, "ARTICLE");
@@ -128,9 +126,7 @@ Deno.test("Element.getElementById", () => {
   assertExists(mainP);
   assertExists(articleP);
 
-  const imgParentArticle = (img!.parentElement! as Element).getElementById(
-    "an-article",
-  );
+  const imgParentArticle = (img!.parentElement! as Element).getElementById("an-article");
 
   assertEquals(aside.tagName, "ASIDE");
   assertEquals(article.tagName, "ARTICLE");

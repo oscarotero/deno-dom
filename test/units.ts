@@ -1,14 +1,15 @@
-import { dirname, join } from "path";
+import { readdirSync } from "node:fs";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
 
-const unitDir = join(dirname(new URL(import.meta.url).pathname), "units");
-const units = Array.from(Deno.readDirSync(unitDir))
-  .filter((file) => file.isFile && file.name.endsWith(".ts"))
+const unitDir = fileURLToPath(import.meta.resolve("./units"));
+const units = readdirSync(unitDir, { withFileTypes: true })
+  .filter((file) => file.isFile() && file.name.endsWith(".ts"))
   .map((file) => join("units", file.name));
 
-// Change into the unitDir
-Deno.chdir(unitDir);
+console.log(units);
 
-// Import all unit files
-for (const file of units) {
-  await import("./" + file);
-}
+// // Import all unit files
+// for (const file of units) {
+//   await import("./" + file);
+// }

@@ -1,9 +1,5 @@
-import { assertEquals } from "assert";
-import {
-  basename,
-  dirname,
-  join,
-} from "https://deno.land/std@0.75.0/path/mod.ts";
+import { describe, it, expect } from "vitest";
+import { basename, dirname, join } from "https://deno.land/std@0.75.0/path/mod.ts";
 import { DOMParser, Element } from "../deno-dom-wasm.ts";
 
 const parser = new DOMParser();
@@ -44,10 +40,7 @@ export async function run(path: string, root: string, backend: Backend) {
     };
   }
 
-  const worker = new Worker(
-    new URL("./wpt-runner-worker.ts", import.meta.url).href,
-    workerOptions,
-  );
+  const worker = new Worker(new URL("./wpt-runner-worker.ts", import.meta.url).href, workerOptions);
   worker.postMessage({
     backend,
     html,

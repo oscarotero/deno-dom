@@ -1,0 +1,20 @@
+{
+  "name": "@lumeland/dom",
+  "description": "DOM & HTML parser in wasm",
+  "author": {
+    "name": "Óscar Otero"
+  },
+  "type": "module",
+  "scripts": {
+    "test": "vitest run",
+    "fmt": "oxfmt .",
+    "lint": "oxlint . --fix"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.6",
+    "oxfmt": "^0.77.0",
+    "oxlint": "^1.92.0",
+    "oxlint-tsgolint": "^7.0.2006",
+    "vitest": "^5.1.0"
+  }
+}

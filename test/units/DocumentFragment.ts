@@ -1,11 +1,4 @@
-import {
-  Comment,
-  DocumentFragment,
-  DOMParser,
-  Element,
-  Node,
-  Text,
-} from "../../deno-dom-wasm.ts";
+import { Comment, DocumentFragment, DOMParser, Element, Node, Text } from "../../deno-dom-wasm.ts";
 import {
   assert,
   assertNotStrictEquals as assetNotEquals,
@@ -40,11 +33,7 @@ Deno.test("DocumentFragment", () => {
   assertEquals(parent.childNodes[1].nodeValue, "bar");
 
   frag2.appendChild(doc.createElement("aside"));
-  frag2.append(
-    doc.createElement("p"),
-    doc.createElement("button"),
-    new Text("fizz"),
-  );
+  frag2.append(doc.createElement("p"), doc.createElement("button"), new Text("fizz"));
   frag2.prepend(doc.createElement("div"));
 
   const newChildrenHtml = `
@@ -129,10 +118,7 @@ Deno.test("DocumentFragment.cloneNode", () => {
 
   assertEquals(deepFragClone.childNodes.length, 1);
   assertEquals(deepFragClone.children.length, 1);
-  assertEquals(
-    deepFragClone.children[0].outerHTML,
-    `<div>foo <b>bar</b></div>`,
-  );
+  assertEquals(deepFragClone.children[0].outerHTML, `<div>foo <b>bar</b></div>`);
   assertEquals(deepFragClone.querySelectorAll("*").length, 2);
   assetNotEquals(frag, deepFragClone);
   assetNotEquals(shallowFragClone, deepFragClone);

@@ -1,4 +1,4 @@
-import { DOMParser } from "../../deno-dom-wasm.ts";
+import { DOMParser } from "../../mod.ts";
 import { assertStrictEquals as assertEquals } from "assert";
 
 // TODO: More comprehensive tests

@@ -1,11 +1,8 @@
-import { DOMParser } from "../../deno-dom-wasm.ts";
-import { assertEquals } from "assert";
+import { DOMParser } from "../../mod.ts";
+import { describe, it, expect } from "vitest";
 
 Deno.test("setting Element.innerHTML yields children with correct .parentNode's", () => {
-  const doc = new DOMParser().parseFromString(
-    `<div id=parent></div>`,
-    "text/html",
-  );
+  const doc = new DOMParser().parseFromString(`<div id=parent></div>`, "text/html");
 
   const parent = doc.querySelector("#parent")!;
   parent.innerHTML = `
@@ -16,31 +13,22 @@ Deno.test("setting Element.innerHTML yields children with correct .parentNode's"
   assertEquals(child.parentNode, parent, "parentNode is the parent");
 });
 
-Deno.test(
-  "Element.innerHTML includes context",
-  () => {
-    const doc = new DOMParser().parseFromString(
-      `
+Deno.test("Element.innerHTML includes context", () => {
+  const doc = new DOMParser().parseFromString(
+    `
         <table><tr id=parent-row></tr></table>
         <div id=parent-div></div>
       `,
-      "text/html",
-    );
+    "text/html",
+  );
 
-    const parentRow = doc.querySelector("#parent-row")!;
-    parentRow.innerHTML = "<th>This is a header</th>";
+  const parentRow = doc.querySelector("#parent-row")!;
+  parentRow.innerHTML = "<th>This is a header</th>";
 
-    assertEquals(
-      parentRow.innerHTML,
-      "<th>This is a header</th>",
-    );
+  assertEquals(parentRow.innerHTML, "<th>This is a header</th>");
 
-    const parentDiv = doc.querySelector("#parent-div")!;
-    parentDiv.innerHTML = "<th>This is a header</th>";
+  const parentDiv = doc.querySelector("#parent-div")!;
+  parentDiv.innerHTML = "<th>This is a header</th>";
 
-    assertEquals(
-      parentDiv.innerHTML,
-      "This is a header",
-    );
-  },
-);
+  assertEquals(parentDiv.innerHTML, "This is a header");
+});

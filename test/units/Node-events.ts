@@ -1,14 +1,8 @@
-import { DOMParser } from "../../deno-dom-wasm.ts";
-import {
-  assert,
-  assertEquals,
-} from "https://deno.land/std@0.85.0/testing/asserts.ts";
+import { DOMParser } from "../../mod.ts";
+import { assert, assertEquals } from "https://deno.land/std@0.85.0/testing/asserts.ts";
 
 Deno.test("Node.dispatchEvent", () => {
-  const doc = new DOMParser().parseFromString(
-    `<div></div>`,
-    "text/html",
-  );
+  const doc = new DOMParser().parseFromString(`<div></div>`, "text/html");
   const div = doc.querySelector("div")!;
   let called = false;
   div.addEventListener("click", () => {
@@ -38,10 +32,7 @@ Deno.test("Node.dispatchEvent, event bubbles", async () => {
 });
 
 Deno.test("Node.removeEventListener removes the event listener", () => {
-  const doc = new DOMParser().parseFromString(
-    `<div></div>`,
-    "text/html",
-  );
+  const doc = new DOMParser().parseFromString(`<div></div>`, "text/html");
   const div = doc.querySelector("div")!;
   let callCount = 0;
   const handler = () => {

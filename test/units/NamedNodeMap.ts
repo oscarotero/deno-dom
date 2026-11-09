@@ -1,4 +1,4 @@
-import { DOMParser } from "../../deno-dom-wasm.ts";
+import { DOMParser } from "../../mod.ts";
 import {
   assertEquals as assertDeepEquals,
   assertNotStrictEquals as assertNotEquals,
@@ -38,10 +38,7 @@ Deno.test("NamedNodeMap", () => {
 
   assertEquals(div.attributes.getNamedItem("class")?.value, "foo");
   assertEquals(div.attributes.getNamedItem("id")?.value, "fizz");
-  assertEquals(
-    div.attributes.getNamedItem("data-foo")?.value,
-    "alpha beta gamma",
-  );
+  assertEquals(div.attributes.getNamedItem("data-foo")?.value, "alpha beta gamma");
 
   assertEquals(div.attributes[0]?.value, "foo");
   assertEquals(div.attributes[1]?.value, "fizz");
@@ -269,11 +266,7 @@ Deno.test("Uninitialized NamedNodeMap preserves ID and className attribute order
   assertDeepEquals(div3.getAttributeNames(), ["id"]);
   assertDeepEquals(div4.getAttributeNames(), ["class"]);
   assertDeepEquals(div5.getAttributeNames(), ["data-others", "class", "id"]);
-  assertDeepEquals(div6.getAttributeNames(), [
-    "id",
-    "data-more-others",
-    "class",
-  ]);
+  assertDeepEquals(div6.getAttributeNames(), ["id", "data-more-others", "class"]);
 
   // Test that ordering is undisturbed when setting id/class a second time
   div1.setAttribute("id", "div1-id");
