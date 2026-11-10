@@ -8,13 +8,20 @@
   "scripts": {
     "test": "vitest run",
     "fmt": "oxfmt .",
+    "bench": "pnpm bench:internal && pnpm bench:compare",
+    "bench:internal": "node --no-warnings=ExperimentalWarning bench/dom.ts",
+    "bench:compare": "node --no-warnings=ExperimentalWarning bench/compare.ts",
     "lint": "oxlint . --fix"
   },
   "devDependencies": {
+    "@types/jsdom": "^30.0.0",
     "@types/node": "^26.6.6",
+    "jsdom": "^31.0.0",
     "oxfmt": "^0.77.0",
     "oxlint": "^1.92.0",
     "oxlint-tsgolint": "^7.0.2006",
+    "parse5": "^8.1.1",
+    "tinybench": "^6.2.3",
     "vitest": "^5.1.0"
   }
 }

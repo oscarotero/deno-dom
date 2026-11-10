@@ -22,7 +22,7 @@ export class DOMParser {
     let htmlNode: Element | null = null;
     let hasDoctype = false;
 
-    for (const child of [...fakeDoc.childNodes]) {
+    for (const child of Array.from(fakeDoc.childNodes)) {
       doc.appendChild(child);
 
       if (child instanceof DocumentType) {

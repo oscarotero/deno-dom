@@ -157,26 +157,22 @@ function isTemplateElement(data: Data): data is HTMLTemplateElementData {
 
 export function nodesFromString(html: string): Node {
   const parsed = JSON.parse(parse(html));
-  const node = nodeFromArray(parsed, null);
-
-  return node;
+  return nodesFromArray(parsed);
 }
 
 export function fragmentNodesFromString(html: string, contextLocalName: string): Node {
   const parsed = JSON.parse(parseFrag(html, contextLocalName));
-  const node = nodeFromArray(parsed, null);
-
-  return node;
+  return nodesFromArray(parsed);
 }
 
-function nodeFromArray(
+export function nodesFromArray(
   data: DocumentOrElementData | HTMLTemplateElementData,
-  parentNode: Node | null,
+  parentNode: Node | null = null,
 ): Node {
   const [, nodeName, attributes, ...children] = data;
 
   if (isTemplateElement(data)) {
-    const content = nodeFromArray(data[3], null);
+    const content = nodesFromArray(data[3], null);
     const contentFrag = new DocumentFragment();
     const fragMutator = contentFrag._getChildNodesMutator();
 
@@ -209,7 +205,7 @@ function nodeFromArray(
 
       case NodeType.DOCUMENT_NODE:
       case NodeType.ELEMENT_NODE:
-        nodeFromArray(child, elm);
+        nodesFromArray(child, elm);
         break;
 
       case NodeType.DOCUMENT_TYPE_NODE:
