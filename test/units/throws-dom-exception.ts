@@ -1,28 +1,22 @@
 import { describe, it, expect } from "vitest";
-import { DOMParser, HTMLDocument, NodeList } from "../../mod.ts";
+import { DOMParser, HTMLDocument } from "../../mod.ts";
 
-Deno.test("Invalid querySelector query throws DOMException", () => {
-  const doc = new DOMParser().parseFromString("<div></div>", "text/html");
-  try {
-    doc.querySelector("div]")!;
-  } catch (e) {
-    assert(e instanceof DOMException);
-  }
-});
+describe("Dom exceptions", () => {
+  it("Invalid querySelector query throws DOMException", () => {
+    const doc = new DOMParser().parseFromString("<div></div>", "text/html");
+    try {
+      doc.querySelector("div]")!;
+    } catch (e) {
+      expect(e).toBeInstanceOf(DOMException);
+    }
+  });
 
-Deno.test("Throws on invalid constructor key", () => {
-  assertThrows(
-    () => {
+  it("Throws on invalid constructor key", () => {
+    expect(() => {
       new (HTMLDocument as any)(undefined);
-    },
-    TypeError,
-    "Illegal constructor.",
-  );
-  assertThrows(
-    () => {
+    }).toThrow(TypeError);
+    expect(() => {
       new (HTMLDocument as any)({});
-    },
-    TypeError,
-    "Illegal constructor.",
-  );
+    }).toThrow(TypeError);
+  });
 });
