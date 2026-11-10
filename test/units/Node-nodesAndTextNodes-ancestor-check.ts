@@ -1,5 +1,5 @@
+import { describe, it, expect } from "vitest";
 import { DOMParser } from "../../mod.ts";
-import { assertThrows } from "assert";
 
 Deno.test("Element.replaceWith ancestor check", () => {
   const doc = new DOMParser().parseFromString(

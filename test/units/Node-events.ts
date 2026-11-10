@@ -1,5 +1,5 @@
+import { describe, it, expect } from "vitest";
 import { DOMParser } from "../../mod.ts";
-import { assert, assertEquals } from "https://deno.land/std@0.85.0/testing/asserts.ts";
 
 Deno.test("Node.dispatchEvent", () => {
   const doc = new DOMParser().parseFromString(`<div></div>`, "text/html");

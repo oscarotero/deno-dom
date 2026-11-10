@@ -1,5 +1,5 @@
+import { describe, it, expect } from "vitest";
 import { DOMParser } from "../../mod.ts";
-import { assertEquals, assertThrows } from "https://deno.land/std@0.85.0/testing/asserts.ts";
 
 // FIXME: should be HTMLElement but it's not implemented yet
 Deno.test("Element#dataset", () => {

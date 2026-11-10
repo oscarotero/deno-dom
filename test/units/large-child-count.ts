@@ -1,5 +1,5 @@
+import { describe, it, expect } from "vitest";
 import { DOMParser } from "../../mod.ts";
-import { assertStrictEquals as assertEquals } from "assert";
 
 Deno.test("Deserialize and query large child count", () => {
   const doc = new DOMParser().parseFromString(`<div id="parent"></div>`, "text/html");

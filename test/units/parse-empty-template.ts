@@ -1,5 +1,5 @@
+import { describe, it, expect } from "vitest";
 import { DOMParser } from "../../mod.ts";
-import { assertStrictEquals } from "assert";
 
 Deno.test("parse empty template", () => {
   const doc = new DOMParser().parseFromString("<body><template></template></body>", "text/html");

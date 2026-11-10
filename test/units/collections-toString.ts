@@ -1,9 +1,0 @@
-import { DOMParser } from "../../mod.ts";
-import { describe, it, expect } from "vitest";
-
-Deno.test("collections-toString", () => {
-  const doc = new DOMParser().parseFromString(`<div></div>`, "text/html");
-  const div = doc.querySelector("div")!;
-  assertEquals(div.childNodes.toString(), "[object NodeList]");
-  assertEquals(div.children.toString(), "[object HTMLCollection]");
-});

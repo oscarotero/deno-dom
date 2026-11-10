@@ -1,5 +1,5 @@
-import { DOMParser } from "../../mod.ts";
 import { describe, it, expect } from "vitest";
+import { DOMParser } from "../../mod.ts";
 
 const html = `
 <!DOCTYPE html>

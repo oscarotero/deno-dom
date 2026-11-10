@@ -1,5 +1,5 @@
-import { Element, HTMLCollection, NodeList, nodesFromString } from "../../deno-dom-wasm.ts";
-import { assert } from "assert";
+import { describe, it, expect } from "vitest";
+import { Element, HTMLCollection, NodeList, nodesFromString } from "../../mod.ts";
 
 Deno.test("Array instanceof Array", () => {
   assert([] instanceof Array);

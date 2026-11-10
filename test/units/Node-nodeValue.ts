@@ -1,5 +1,5 @@
+import { describe, it, expect } from "vitest";
 import { DOMParser } from "../../mod.ts";
-import { assertStrictEquals as assertEquals } from "assert";
 
 // TODO: More comprehensive tests
 

@@ -1,5 +1,5 @@
-import { DOMParser } from "../../mod.ts";
 import { describe, it, expect } from "vitest";
+import { DOMParser } from "../../mod.ts";
 
 Deno.test("querySelectorAll-selector-list", () => {
   const doc = new DOMParser().parseFromString(

@@ -1,4 +1,5 @@
-import { Document, Element, HTMLDocument, NodeList } from "../../deno-dom-wasm.ts";
+import { describe, it, expect } from "vitest";
+import { Document, Element, HTMLDocument, NodeList } from "../../mod.ts";
 
 Deno.test("Using the public API types for NodeList works", () => {
   interface Queryable {

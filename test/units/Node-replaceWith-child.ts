@@ -1,5 +1,5 @@
-import { DOMParser, Element } from "../../deno-dom-wasm.ts";
 import { describe, it, expect } from "vitest";
+import { DOMParser, Element } from "../../mod.ts";
 
 Deno.test("Node.replaceWith(childNode) correctly sets new childNode's parent", () => {
   const doc = new DOMParser().parseFromString(

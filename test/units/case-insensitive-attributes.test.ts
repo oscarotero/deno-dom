@@ -1,5 +1,5 @@
-import { DOMParser } from "../../mod.ts";
 import { describe, it, expect } from "vitest";
+import { DOMParser } from "../../mod.ts";
 
 describe("Case insensitive attributes", () => {
   const doc = new DOMParser().parseFromString(
@@ -12,11 +12,7 @@ describe("Case insensitive attributes", () => {
     expect(div.getAttribute("foobar")).toBe("baz");
     expect(div.getAttribute("FooBar")).toBe("baz");
     div.setAttribute("fOObAR", "fizz");
-    expect(
-      div.getAttribute("FooBar")).toBe("fizz",
-    );
-    expect(
-      div.getAttribute("foobar")).toBe("fizz",
-    );
-  })
+    expect(div.getAttribute("FooBar")).toBe("fizz");
+    expect(div.getAttribute("foobar")).toBe("fizz");
+  });
 });

@@ -1,5 +1,5 @@
-import { DOMParser, Node } from "../../deno-dom-wasm.ts";
-import { assertEquals, assertThrows } from "https://deno.land/std@0.85.0/testing/asserts.ts";
+import { describe, it, expect } from "vitest";
+import { DOMParser, Node } from "../../mod.ts";
 
 Deno.test("Node.removeChild", () => {
   const doc = new DOMParser().parseFromString(

@@ -1,5 +1,5 @@
-import { Comment, DOMParser, Node } from "../../deno-dom-wasm.ts";
 import { describe, it, expect } from "vitest";
+import { Comment, DOMParser, Node } from "../../mod.ts";
 
 Deno.test("Element.id", () => {
   const doc = new DOMParser().parseFromString(

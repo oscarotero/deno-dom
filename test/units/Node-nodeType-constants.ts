@@ -1,5 +1,5 @@
-import { Document, Node, NodeType } from "../../deno-dom-wasm.ts";
 import { describe, it, expect } from "vitest";
+import { Document, Node, NodeType } from "../../mod.ts";
 
 Deno.test("Node#TEXT_NODE, Node#ELEMENT_NODE, et al. instance nodeType constants", () => {
   const doc = new Document();

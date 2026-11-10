@@ -1,5 +1,5 @@
+import { describe, it, expect } from "vitest";
 import { DOMParser } from "../../mod.ts";
-import { assert } from "assert";
 
 Deno.test("Element-closest", () => {
   const doc = new DOMParser().parseFromString(

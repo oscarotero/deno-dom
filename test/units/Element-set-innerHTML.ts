@@ -1,5 +1,5 @@
-import { DOMParser } from "../../mod.ts";
 import { describe, it, expect } from "vitest";
+import { DOMParser } from "../../mod.ts";
 
 Deno.test("setting Element.innerHTML yields children with correct .parentNode's", () => {
   const doc = new DOMParser().parseFromString(`<div id=parent></div>`, "text/html");

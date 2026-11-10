@@ -1,5 +1,6 @@
+import { describe, it, expect } from "vitest";
 import { DOMParser } from "../../mod.ts";
-import type { HTMLTemplateElement } from "../../src/dom/elements/html-template-element.ts";
+import type { HTMLTemplateElement } from "../../api/dom/elements/html-template-element.ts";
 
 Deno.test("querySelector<T> and querySelectorAll<T> typings", () => {
   const doc = new DOMParser().parseFromString(`<template></template>`, "text/html");

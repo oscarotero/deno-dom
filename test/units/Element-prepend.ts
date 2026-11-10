@@ -1,5 +1,5 @@
-import { Comment, DOMParser, Element, Node } from "../../deno-dom-wasm.ts";
-import { assertStrictEquals as assertEquals } from "assert";
+import { describe, it, expect } from "vitest";
+import { Comment, DOMParser, Element, Node } from "../../mod.ts";
 
 Deno.test("Element.prepend", () => {
   const doc = new DOMParser().parseFromString(

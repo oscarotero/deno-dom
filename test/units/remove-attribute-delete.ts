@@ -1,5 +1,5 @@
+import { describe, it, expect } from "vitest";
 import { DOMParser } from "../../mod.ts";
-import { assert } from "assert";
 
 Deno.test("removeAttribute attributes don't show in HTML", () => {
   const doc = new DOMParser().parseFromString("<div><br foo></div>", "text/html");

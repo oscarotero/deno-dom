@@ -1,5 +1,5 @@
-import { DOMParser } from "../../mod.ts";
 import { describe, it, expect } from "vitest";
+import { DOMParser } from "../../mod.ts";
 
 // FIXME: should be HTMLElement but it's not implemented yet
 Deno.test("Element#innerText", () => {

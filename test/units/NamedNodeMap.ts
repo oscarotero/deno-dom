@@ -1,10 +1,5 @@
+import { describe, it, expect } from "vitest";
 import { DOMParser } from "../../mod.ts";
-import {
-  assertEquals as assertDeepEquals,
-  assertNotStrictEquals as assertNotEquals,
-  assertStrictEquals as assertEquals,
-  assertThrows,
-} from "https://deno.land/std@0.85.0/testing/asserts.ts";
 
 Deno.test("NamedNodeMap", () => {
   const doc = new DOMParser().parseFromString(

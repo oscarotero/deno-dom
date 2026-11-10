@@ -1,8 +1,5 @@
-import { DocumentFragment, DOMParser, HTMLTemplateElement, NodeType } from "../../deno-dom-wasm.ts";
-import {
-  assertNotStrictEquals as assertNotEquals,
-  assertStrictEquals as assertEquals,
-} from "https://deno.land/std@0.85.0/testing/asserts.ts";
+import { describe, it, expect } from "vitest";
+import { DocumentFragment, DOMParser, HTMLTemplateElement, NodeType } from "../../mod.ts";
 
 Deno.test("HTMLTemplateElement", () => {
   const doc = new DOMParser().parseFromString(
