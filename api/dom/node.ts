@@ -20,6 +20,8 @@ export const NodeType = {
   NOTATION_NODE: 12,
 } as const;
 
+type NodeTypeRaw = (typeof NodeType)[keyof typeof NodeType];
+
 /**
  * Throws if any of the nodes are an ancestor
  * of `parentNode`
@@ -50,7 +52,7 @@ export function nodesAndTextNodes(nodes: (Node | unknown)[], parentNode: Node): 
 
 export class Node extends EventTarget {
   nodeName: string;
-  nodeType: NodeType;
+  nodeType: NodeTypeRaw;
   #nodeValue: string | null = null;
   public parentNode: Node | null = null;
   #ownerDocument: Document | null = null;
@@ -78,7 +80,12 @@ export class Node extends EventTarget {
   static DOCUMENT_FRAGMENT_NODE = NodeType.DOCUMENT_FRAGMENT_NODE;
   static NOTATION_NODE = NodeType.NOTATION_NODE;
 
-  constructor(nodeName: string, nodeType: NodeType, parentNode: Node | null, key: typeof CTOR_KEY) {
+  constructor(
+    nodeName: string,
+    nodeType: NodeTypeRaw,
+    parentNode: Node | null,
+    key: typeof CTOR_KEY,
+  ) {
     if (key !== CTOR_KEY) {
       throw new TypeError("Illegal constructor.");
     }
@@ -310,6 +317,41 @@ export class Node extends EventTarget {
     return oldChild;
   }
 
+  normalize() {
+    let i = 0;
+    while (i < this.childNodes.length) {
+      const currentNode = this.childNodes[i];
+
+      if (currentNode.nodeType === NodeType.TEXT_NODE) {
+        if (currentNode.nodeValue === "") {
+          this.removeChild(currentNode);
+          continue;
+        }
+
+        let nodeValue = currentNode.nodeName ?? "";
+        let nextNode = this.childNodes[i + 1];
+
+        // Merge adjacent text nodes
+        while (nextNode && nextNode.nodeType === NodeType.TEXT_NODE) {
+          nodeValue += nextNode.nodeValue;
+          this.removeChild(nextNode);
+          nextNode = this.childNodes[i + 1];
+        }
+
+        if (nodeValue === "") {
+          this.removeChild(currentNode);
+          continue;
+        }
+        currentNode.nodeValue = nodeValue;
+        i++;
+        continue;
+      }
+
+      currentNode.normalize();
+      i++;
+    }
+  }
+
   insertBefore(newNode: Node, refNode: Node | null): Node {
     this._assertNotAncestor(newNode);
     const mutator = this._getChildNodesMutator();
@@ -513,18 +555,18 @@ export class Node extends EventTarget {
 
 // Node instance `nodeType` enum constants
 export interface Node {
-  ELEMENT_NODE: NodeType;
-  ATTRIBUTE_NODE: NodeType;
-  TEXT_NODE: NodeType;
-  CDATA_SECTION_NODE: NodeType;
-  ENTITY_REFERENCE_NODE: NodeType;
-  ENTITY_NODE: NodeType;
-  PROCESSING_INSTRUCTION_NODE: NodeType;
-  COMMENT_NODE: NodeType;
-  DOCUMENT_NODE: NodeType;
-  DOCUMENT_TYPE_NODE: NodeType;
-  DOCUMENT_FRAGMENT_NODE: NodeType;
-  NOTATION_NODE: NodeType;
+  ELEMENT_NODE: NodeTypeRaw;
+  ATTRIBUTE_NODE: NodeTypeRaw;
+  TEXT_NODE: NodeTypeRaw;
+  CDATA_SECTION_NODE: NodeTypeRaw;
+  ENTITY_REFERENCE_NODE: NodeTypeRaw;
+  ENTITY_NODE: NodeTypeRaw;
+  PROCESSING_INSTRUCTION_NODE: NodeTypeRaw;
+  COMMENT_NODE: NodeTypeRaw;
+  DOCUMENT_NODE: NodeTypeRaw;
+  DOCUMENT_TYPE_NODE: NodeTypeRaw;
+  DOCUMENT_FRAGMENT_NODE: NodeTypeRaw;
+  NOTATION_NODE: NodeTypeRaw;
 }
 
 Node.prototype.ELEMENT_NODE = NodeType.ELEMENT_NODE;
@@ -546,7 +588,7 @@ export class CharacterData extends Node {
   constructor(
     data: string,
     nodeName: string,
-    nodeType: NodeType,
+    nodeType: NodeTypeRaw,
     parentNode: Node | null,
     key: typeof CTOR_KEY,
   ) {
