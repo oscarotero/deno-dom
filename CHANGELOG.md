@@ -11,6 +11,7 @@ First version after clonning [b-fuse/deno-dom v0.1.56](https://github.com/b-fuze
 
 ### Added
 
+- Basic implementation of `HTMLElement` (some code adapted [from this draft PR](https://github.com/b-fuze/deno-dom/pull/100)).
 - Support for new parsing rules for `<select>`.
 - Support for `Node.normalize()`.
 

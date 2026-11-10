@@ -822,14 +822,6 @@ export class Element extends Node {
     }
   }
 
-  get innerText(): string {
-    return this.textContent;
-  }
-
-  set innerText(text: string) {
-    this.textContent = text;
-  }
-
   get children(): HTMLCollection {
     return this._getChildNodesMutator().elementsView();
   }
