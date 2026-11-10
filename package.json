@@ -8,6 +8,7 @@
   "scripts": {
     "test": "vitest run",
     "fmt": "oxfmt .",
+    "build:wasm": "wasm-pack build --target bundler --out-dir=wasm --no-pack",
     "bench": "pnpm bench:internal && pnpm bench:compare",
     "bench:internal": "node --no-warnings=ExperimentalWarning bench/dom.ts",
     "bench:compare": "node --no-warnings=ExperimentalWarning bench/compare.ts",

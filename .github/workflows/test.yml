@@ -19,12 +19,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v7
 
-
-      - name: Install WASM-pack
+      - name: Setup WASM-pack
         uses: jetli/wasm-pack-action@v0.4.0
-
-      - name: Build wasm
-        run: wasm-pack build --target bundler
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v6
@@ -36,6 +32,9 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install
+
+      - name: Build wasm
+        run: pnpm build:wasm
 
       - name: Run tests
         run: pnpm test
