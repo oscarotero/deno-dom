@@ -26,7 +26,7 @@ type NodeTypeRaw = (typeof NodeType)[keyof typeof NodeType];
  * Throws if any of the nodes are an ancestor
  * of `parentNode`
  */
-export function nodesAndTextNodes(nodes: (Node | unknown)[], parentNode: Node): Node[] {
+export function nodesAndTextNodes(nodes: (Node | string)[], parentNode: Node): Node[] {
   return nodes.flatMap((n) => {
     if (isDocumentFragment(n as Node)) {
       const children = Array.from((n as Node).childNodes);

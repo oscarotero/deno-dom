@@ -91,11 +91,11 @@ for (const instanceMethod of [
 }
 
 export interface HTMLCollection {
-  new (): HTMLCollection;
   readonly [index: number]: Element;
   readonly length: number;
   [Symbol.iterator](): Generator<Element>;
 
+  new(): HTMLCollection;
   item(index: number): Element;
   [HTMLCollectionMutatorSym](): HTMLCollectionMutator;
 }

@@ -1,7 +1,5 @@
 import { Comment, Node, nodesAndTextNodes, NodeType, Text } from "./node.ts";
-import { NodeList } from "./node-list.ts";
 import UtilTypes from "./utils-types.ts";
-import { getLowerCase } from "./string-cache.ts";
 import type { Element } from "./element.ts";
 import type { HTMLTemplateElement } from "./elements/html-template-element.ts";
 import type { DocumentFragment } from "./document-fragment.ts";

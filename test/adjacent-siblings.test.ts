@@ -12,7 +12,7 @@ describe("Adjacent siblings", () => {
   const divA = doc.querySelector(".a");
   const divB = doc.querySelector(".b");
   const divC = doc.querySelector(".c");
-  const comment = doc.querySelector(".main")?.childNodes[3]!;
+  const comment = doc.querySelector(".main")?.childNodes[3];
 
   it("check siblings", () => {
     expect(divMain?.nextSibling).toBeNull();

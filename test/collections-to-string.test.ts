@@ -6,6 +6,7 @@ describe("Collections to string", () => {
     const doc = new DOMParser().parseFromString(`<div></div>`, "text/html");
     const div = doc.querySelector("div")!;
     expect(div.childNodes.toString()).toBe("[object NodeList]");
+    // oxlint-disable-next-line typescript/no-base-to-string
     expect(div.children.toString()).toBe("[object HTMLCollection]");
   });
 });

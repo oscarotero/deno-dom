@@ -140,7 +140,7 @@ export class DOMTokenList {
   }
 
   add(...elements: Array<string>) {
-    const method = (this.#set.constructor === Array ? this.#arrayAdd : this.#setAdd).bind(this);
+    const isArrayBacked = this.#set.constructor === Array;
 
     for (const element of elements) {
       if (DOMTokenList.#invalidToken(element)) {
@@ -148,8 +148,11 @@ export class DOMTokenList {
           "Failed to execute 'add' on 'DOMTokenList': The token provided must not be empty.",
         );
       }
-
-      method(element);
+      if (isArrayBacked) {
+        this.#arrayAdd(element);
+      } else {
+        this.#setAdd(element);
+      }
     }
     this.#updateClassString();
   }
@@ -166,17 +169,20 @@ export class DOMTokenList {
   }
 
   remove(...elements: Array<string>) {
-    const method = (this.#set.constructor === Array ? this.#arrayRemove : this.#setRemove).bind(
-      this,
-    );
+    const isArrayBacked = this.#set.constructor === Array;
     const size = this.length;
+
     for (const element of elements) {
       if (DOMTokenList.#invalidToken(element)) {
         throw new DOMException(
           "Failed to execute 'remove' on 'DOMTokenList': The token provided must not be empty.",
         );
       }
-      method(element);
+      if (isArrayBacked) {
+        this.#arrayRemove(element);
+      } else {
+        this.#setRemove(element);
+      }
     }
     const newSize = this.length;
     if (size !== newSize) {
@@ -189,9 +195,6 @@ export class DOMTokenList {
   }
 
   replace(oldToken: string, newToken: string): boolean {
-    const isArrayBacked = this.#set.constructor === Array;
-    const removeMethod = (isArrayBacked ? this.#arrayRemove : this.#setRemove).bind(this);
-    const addMethod = (isArrayBacked ? this.#arrayAdd : this.#setAdd).bind(this);
     if ([oldToken, newToken].some((v) => DOMTokenList.#invalidToken(v))) {
       throw new DOMException(
         "Failed to execute 'replace' on 'DOMTokenList': The token provided must not be empty.",
@@ -204,8 +207,16 @@ export class DOMTokenList {
     if (this.contains(newToken)) {
       this.remove(oldToken);
     } else {
-      removeMethod(oldToken);
-      addMethod(newToken);
+      const isArrayBacked = this.#set.constructor === Array;
+
+      if (isArrayBacked) {
+        this.#arrayRemove(oldToken);
+        this.#arrayAdd(newToken);
+      } else {
+        this.#setRemove(oldToken);
+        this.#setAdd(newToken);
+      }
+
       this.#setIndices();
       this.#updateClassString();
     }
@@ -631,7 +642,6 @@ const XML_NAMESTART_CHAR_RE_SRC =
   String.raw`\u{3001}-\u{D7FF}\u{F900}-\u{FDCF}\u{FDF0}-\u{FFFD}\u{10000}-\u{EFFFF}`;
 const XML_NAME_CHAR_RE_SRC =
   XML_NAMESTART_CHAR_RE_SRC + String.raw`\u{B7}\u{0300}-\u{036F}\u{203F}-\u{2040}0-9.-`;
-const xmlNamestartCharRe = new RegExp(`[${XML_NAMESTART_CHAR_RE_SRC}]`, "u");
 const xmlNameCharRe = new RegExp(`[${XML_NAME_CHAR_RE_SRC}]`, "u");
 
 export class Element extends Node {
@@ -942,12 +952,16 @@ export class Element extends Node {
         switch (attributeIdx) {
           // "id" attribute
           case 0: {
-            ~this.#hasIdAttribute && attributes.push("id");
+            if (~this.#hasIdAttribute) {
+              attributes.push("id");
+            }
             break;
           }
           // "class" attribute
           case 1: {
-            ~this.#hasClassNameAttribute && attributes.push("class");
+            if (~this.#hasClassNameAttribute) {
+              attributes.push("class");
+            }
             break;
           }
         }
@@ -1213,8 +1227,10 @@ export class Element extends Node {
   }
 
   closest(selectorString: string): Element | null {
-    const { match } = this.ownerDocument![selector]; // See note below
+    // oxlint-disable-next-line typescript/unbound-method
+    const { match } = this.ownerDocument![selector];
 
+    // oxlint-disable-next-line typescript/no-this-alias
     let el: Element | null = this;
     do {
       // Note: Not using `el.matches(selectorString)` because on a browser if you override
