@@ -1,3 +1,4 @@
+// @ts-expect-error: No types
 import NWDom from "./nwsapi.js";
 import type { Element } from "../element.ts";
 import type { Document } from "../document.ts";

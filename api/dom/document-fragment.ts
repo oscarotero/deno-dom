@@ -7,6 +7,8 @@ import { customByClassNameSym, customByTagNameSym } from "./selectors/custom-api
 import { getElementsByClassName } from "./utils.ts";
 import UtilTypes from "./utils-types.ts";
 
+import { selector } from "./document.ts";
+
 export class DocumentFragment extends Node {
   constructor() {
     super("#document-fragment", NodeType.DOCUMENT_FRAGMENT_NODE, null, CTOR_KEY);
@@ -80,7 +82,7 @@ export class DocumentFragment extends Node {
       throw new Error("DocumentFragment must have an owner document");
     }
 
-    return this.ownerDocument!._nwapi.first(selectors, this as any as Element);
+    return this.ownerDocument![selector].first(selectors, this);
   }
 
   querySelectorAll(selectors: string): NodeList {
@@ -90,7 +92,7 @@ export class DocumentFragment extends Node {
 
     const nodeList = new NodeList();
     const mutator = nodeList[nodeListMutatorSym]();
-    mutator.push(...this.ownerDocument!._nwapi.select(selectors, this as any as Element));
+    mutator.push(...this.ownerDocument![selector].select(selectors, this));
 
     return nodeList;
   }

@@ -13,7 +13,7 @@ import {
   upperCaseCharRe,
 } from "./utils.ts";
 import UtilTypes from "./utils-types.ts";
-import { getLowerCase, getUpperCase } from "./string-cache.ts";
+import { selector } from "./document.ts";
 
 export interface DOMTokenList {
   [index: number]: string;
@@ -718,7 +718,7 @@ export class Element extends Node {
       this.setAttribute(attr[0], attr[1]);
     }
 
-    this.nodeName = getUpperCase(tagName);
+    this.nodeName = tagName.toUpperCase();
   }
 
   get tagName(): string {
@@ -726,7 +726,7 @@ export class Element extends Node {
   }
 
   get localName(): string {
-    return getLowerCase(this.tagName);
+    return this.tagName.toLowerCase();
   }
 
   override _shallowClone(): Node {
@@ -960,7 +960,7 @@ export class Element extends Node {
   }
 
   getAttribute(rawName: string): string | null {
-    const name = getLowerCase(String(rawName));
+    const name = rawName.toLowerCase();
 
     switch (name) {
       case "id": {
@@ -987,7 +987,7 @@ export class Element extends Node {
   }
 
   setAttribute(rawName: string, value: any) {
-    const name = getLowerCase(String(rawName));
+    const name = rawName.toLowerCase();
     const strValue = String(value);
     let isNormalAttribute = false;
 
@@ -1017,7 +1017,7 @@ export class Element extends Node {
   }
 
   removeAttribute(rawName: string) {
-    const name = getLowerCase(String(rawName));
+    const name = rawName.toLowerCase();
     switch (name) {
       case "id": {
         this.#currentId = "";
@@ -1039,7 +1039,7 @@ export class Element extends Node {
   }
 
   toggleAttribute(rawName: string, force?: boolean): boolean {
-    const name = getLowerCase(String(rawName));
+    const name = rawName.toLowerCase();
     if (this.hasAttribute(name)) {
       if (force === undefined || force === false) {
         this.removeAttribute(name);
@@ -1055,7 +1055,7 @@ export class Element extends Node {
   }
 
   hasAttribute(rawName: string): boolean {
-    const name = getLowerCase(String(rawName));
+    const name = rawName.toLowerCase();
 
     switch (name) {
       case "id": {
@@ -1074,7 +1074,7 @@ export class Element extends Node {
   }
 
   hasAttributeNS(_namespace: string, rawName: string): boolean {
-    const name = getLowerCase(String(rawName));
+    const name = rawName.toLowerCase();
 
     switch (name) {
       case "id": {
@@ -1097,8 +1097,7 @@ export class Element extends Node {
    * https://dom.spec.whatwg.org/#concept-element-attributes-get-by-name
    */
   getAttributeNode(rawName: string): Attr | null {
-    const name = getLowerCase(String(rawName));
-    return this.attributes.getNamedItem(name);
+    return this.attributes.getNamedItem(rawName.toLowerCase());
   }
 
   /**
@@ -1191,7 +1190,7 @@ export class Element extends Node {
       throw new Error("Element must have an owner document");
     }
 
-    return this.ownerDocument!._nwapi.first(selectors, this) as T;
+    return this.ownerDocument![selector].first(selectors, this) as T;
   }
 
   querySelectorAll<T extends Element = Element>(selectors: string): NodeList<T> {
@@ -1202,7 +1201,7 @@ export class Element extends Node {
     const nodeList = new NodeList();
     const mutator = nodeList[nodeListMutatorSym]();
 
-    for (const match of this.ownerDocument!._nwapi.select(selectors, this)) {
+    for (const match of this.ownerDocument![selector].select(selectors, this)) {
       mutator.push(match);
     }
 
@@ -1210,12 +1209,12 @@ export class Element extends Node {
   }
 
   matches(selectorString: string): boolean {
-    return this.ownerDocument!._nwapi.match(selectorString, this);
+    return this.ownerDocument![selector].match(selectorString, this);
   }
 
   closest(selectorString: string): Element | null {
-    const { match } = this.ownerDocument!._nwapi; // See note below
-    // deno-lint-ignore no-this-alias
+    const { match } = this.ownerDocument![selector]; // See note below
+
     let el: Element | null = this;
     do {
       // Note: Not using `el.matches(selectorString)` because on a browser if you override
@@ -1255,7 +1254,7 @@ export class Element extends Node {
       return [];
     }
 
-    const fixCaseTagName = getUpperCase(tagName);
+    const fixCaseTagName = tagName.toUpperCase();
 
     if (fixCaseTagName === "*") {
       return this._getElementsByTagNameWildcard([]) as Element[];

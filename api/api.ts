@@ -5,7 +5,6 @@ export * from "./dom/document.ts";
 export * from "./dom/document-fragment.ts";
 export * from "./dom/dom-parser.ts";
 export * from "./dom/elements/html-template-element.ts";
-export { disableCodeGeneration as denoDomDisableQuerySelectorCodeGeneration } from "./dom/selectors/selectors.ts";
 
 // Re-export private constructors without constructor signature
 import {

@@ -4,10 +4,11 @@ import { NodeList, nodeListMutatorSym } from "./node-list.ts";
 import { Element } from "./element.ts";
 import { DocumentFragment } from "./document-fragment.ts";
 import { HTMLTemplateElement } from "./elements/html-template-element.ts";
-import { getSelectorEngine, type SelectorApi } from "./selectors/selectors.ts";
 import { getElementsByClassName } from "./utils.ts";
+import { createSelector, type SelectorApi } from "./selectors/selectors.ts";
 import UtilTypes from "./utils-types.ts";
-import { getUpperCase } from "./string-cache.ts";
+
+export const selector = Symbol.for("Selector");
 
 export class DOMImplementation {
   constructor(key: typeof CTOR_KEY) {
@@ -97,7 +98,7 @@ export class Document extends Node {
   public implementation: DOMImplementation;
 
   #documentURI = "about:blank"; // TODO
-  #nwapi: SelectorApi | null = null;
+  #selector: SelectorApi | null = null;
 
   constructor() {
     super("#document", NodeType.DOCUMENT_NODE, null, CTOR_KEY);
@@ -111,8 +112,8 @@ export class Document extends Node {
 
   // Expose the document's NWAPI for Element's access to
   // querySelector/querySelectorAll
-  get _nwapi(): SelectorApi {
-    return this.#nwapi || (this.#nwapi = getSelectorEngine()(this));
+  get [selector]() {
+    return this.#selector || (this.#selector = createSelector(this));
   }
 
   get documentURI(): string {
@@ -191,8 +192,8 @@ export class Document extends Node {
     return child;
   }
 
-  createElement(tagName: string, options?: ElementCreationOptions): Element {
-    tagName = getUpperCase(tagName);
+  createElement(tagName: string, _options?: ElementCreationOptions): Element {
+    tagName = tagName.toUpperCase();
 
     switch (tagName) {
       case "TEMPLATE": {
@@ -280,14 +281,14 @@ export class Document extends Node {
   }
 
   querySelector<T = Element>(selectors: string): T | null {
-    return this._nwapi.first(selectors, this) as T;
+    return this[selector].first(selectors, this) as T;
   }
 
   querySelectorAll<T extends Element = Element>(selectors: string): NodeList<T> {
     const nodeList = new NodeList();
     const mutator = nodeList[nodeListMutatorSym]();
 
-    for (const match of this._nwapi.select(selectors, this)) {
+    for (const match of this[selector].select(selectors, this)) {
       mutator.push(match);
     }
 
@@ -322,7 +323,7 @@ export class Document extends Node {
         ? (this._getElementsByTagNameWildcard(this.documentElement, []) as Element[])
         : [];
     } else {
-      return this._getElementsByTagName(getUpperCase(tagName), []) as Element[];
+      return this._getElementsByTagName(tagName.toUpperCase(), []) as Element[];
     }
   }
 
